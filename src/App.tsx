@@ -1,25 +1,30 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react";
+import { Route, Routes } from "react-router-dom";
+import { Pokemon } from "../Pokemon.type";
+import { Navbar } from "./components/Navbar";
+import { MuiDrawerContextProvider } from "./context/MuiDrawerContext";
+import { About } from "./pages/About";
+import { Home } from "./pages/Home";
+import { PokemonDetail } from "./pages/PokemonDetail";
 
 function App() {
+  //Objectif maitriser les props et les stats avec les events tout ça en typescript
+  // Faire des carts de voiture et verra apres
+
+  const [pokemons, setPokemons] = useState<Pokemon[]>([]);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <MuiDrawerContextProvider>
+      <Navbar pokemons={pokemons} setPokemons={setPokemons} />
+      <Routes>
+        <Route
+          path="/"
+          element={<Home pokemons={pokemons} setPokemons={setPokemons} />}
+        />
+        <Route path="/about/" element={<About />} />
+        <Route path="/PokemonDetail/:id" element={<PokemonDetail />} />
+      </Routes>
+    </MuiDrawerContextProvider>
   );
 }
 
